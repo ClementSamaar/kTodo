@@ -47,6 +47,10 @@
           <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.33" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
           <element id="library" level="project" name="Maven: org.json:json:20240303" />
+          <element id="library" level="project" name="Maven: org.mockito:mockito-core:5.14.2" />
+          <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.15.4" />
+          <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy-agent:1.15.4" />
+          <element id="library" level="project" name="Maven: org.objenesis:objenesis:3.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">
