@@ -23,9 +23,10 @@ public class JDBCConnect {
         this.server = propertiesFile.getProperty("server");
         this.connectionProperties.put("user", propertiesFile.getProperty("user"));
         this.connectionProperties.put("password", propertiesFile.getProperty("password"));
+        this.setJdbc();
     }
 
-    public void setJdbc() {
+    private void setJdbc() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             this.jdbc = DriverManager.getConnection("jdbc:mysql://" + this.server + ":3306/" + db, this.connectionProperties);
@@ -38,26 +39,23 @@ public class JDBCConnect {
         return this.jdbc;
     }
 
-    private static JSONObject convertRowToJSONObj(ResultSet resultSet, ResultSetMetaData resultMeta) throws SQLException {
+    public static JSONObject rowToJSONObj(ResultSet resultSet) throws SQLException {
         JSONObject obj = new JSONObject();
+        ResultSetMetaData resultSetMeta = resultSet.getMetaData();
         if (resultSet.next()) {
-            for (int i = 1; i <= resultMeta.getColumnCount(); i++) {
-                obj.put(resultMeta.getColumnName(i), resultSet.getObject(i));
+            for (int i = 1; i <= resultSetMeta.getColumnCount(); i++) {
+                obj.put(resultSetMeta.getColumnName(i), resultSet.getObject(i));
             }
         }
         return obj;
     }
-    public static String resultSetJSONStringify(ResultSet resultSet) throws SQLException {
-        JSONArray jsonResult = new JSONArray();
+    public static JSONArray resultSetToJSONArray(ResultSet resultSet) throws SQLException {
+        JSONArray array = new JSONArray();
         ResultSetMetaData resultMeta = resultSet.getMetaData();
         while (!resultSet.isLast()) {
-            JSONObject row = convertRowToJSONObj(resultSet, resultMeta);
-            jsonResult.put(row);
+            JSONObject row = rowToJSONObj(resultSet);
+            array.put(row);
         }
-        return jsonResult.toString(4);
-    }
-
-    public static String rowJSONStringify(ResultSet resultSet, ResultSetMetaData resultMeta) throws SQLException {
-        return convertRowToJSONObj(resultSet, resultMeta).toString();
+        return array;
     }
 }
