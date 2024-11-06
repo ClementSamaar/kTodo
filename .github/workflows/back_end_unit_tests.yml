@@ -1,0 +1,21 @@
+name: Launch maven unit test
+
+on:
+  push:
+    branches: [ "back_dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+        architecture: x64
+    - name: Launching tests
+      run: mvn -B -U verify
